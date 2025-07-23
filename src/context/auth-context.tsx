@@ -45,8 +45,8 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
 
   useEffect(() => {
     console.log(user);
-    const cookieUser = Cookies.get('shark_user');
-    const cookieToken = Cookies.get('shark_token');
+    const cookieUser = Cookies.get('dedica_user');
+    const cookieToken = Cookies.get('dedica_token');
     if (cookieUser && cookieToken) {
       const parsedUser = decryptData(cookieUser);
       setUser(parsedUser);
@@ -55,14 +55,14 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
   }, []);
 
   useEffect(() => {
-    console.log(user)
+    console.log(user);
   }, [user]);
 
   const signIn = async (user: User) => {
     setToken(user.token!);
     setUser(user);
-    Cookies.set('shark_user', encryptData(user), { expires: 7 }); // persiste por 7 dias
-    Cookies.set('shark_token', (user.token!), { expires: 7 }); // persiste por 7 dias
+    Cookies.set('dedica_user', encryptData(user), { expires: 7 }); // persiste por 7 dias
+    Cookies.set('dedica_token', user.token!, { expires: 7 }); // persiste por 7 dias
   };
 
   const signOut = () => {

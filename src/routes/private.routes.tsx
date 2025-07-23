@@ -7,7 +7,7 @@ interface PrivateProps {
 }
 
 function Private({ children }: PrivateProps) {
-  if (Cookies.get('shark_token')) {
+  if (Cookies.get('dedica_token')) {
     return children;
   }
 

@@ -9,7 +9,7 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = Cookies.get('shark_token');
+    const token = Cookies.get('dedica_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -27,7 +27,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       if (error.response.data.message === 'Token invalid') {
-        Cookies.remove('shark_token');
+        Cookies.remove('dedica_token');
         window.location.href = '/login';
       }
     }
