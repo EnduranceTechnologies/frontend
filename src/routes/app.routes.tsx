@@ -9,6 +9,7 @@ import ForgotPassword from '@/pages/public/forgot-password.tsx';
 import RecoverPassword from '@/pages/public/recover-password.tsx';
 import Account from '@/pages/private/account.tsx';
 import { useAuth } from '@/context/auth-context.tsx';
+import Register from '@/pages/public/register.tsx';
 
 export const AppRoute = () => {
   const { theme } = useTheme();
@@ -28,6 +29,7 @@ export const AppRoute = () => {
       <Router>
         <Routes>
           <Route path={'/login'} element={<Login />} />
+          <Route path={'/register'} element={<Register />} />
           <Route path={'/forgot-password'} element={<ForgotPassword />} />
           <Route
             path={'/recover/:token/:email'}

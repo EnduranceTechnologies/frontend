@@ -17,11 +17,11 @@ export const LoadingProvider = ({ children }: LoadingProviderProps) => {
   const [loading, setLoading] = useState(false);
 
   async function onLoading() {
-    await setLoading(true);
+    setLoading(true);
   }
 
   async function offLoading() {
-    await setLoading(false)
+    setLoading(false)
   }
 
   return (
