@@ -8,7 +8,6 @@ import ClinicHubLogo from "@/assets/routes/public/clinicHubLogo.png"
 import IndividualProfessional from "@/assets/routes/public/register/profissional_individual.svg"
 import ClinicADM from "@/assets/routes/public/register/adm_clinica.svg"
 import TermsModal from '@/components/terms-modal/terms-modal';
-import { toast } from 'react-toastify';
 import { Checkbox } from '@/components/ui/checkbox';
 import PasswordInput from '@/components/password-input/password-input';
 import BasicInput from '@/components/basic-input/basic-input';
@@ -87,12 +86,6 @@ export default function RegisterAccess() {
   const handleAcceptTerms = useCallback(() => {
     handleFormFields("checkTerms", true)
     setOpenTerms(false);
-  }, [openTerms, formFields.checkTerms]);
-
-  const handleDeclineTerms = useCallback(() => {
-    setOpenTerms(false);
-    handleFormFields("checkTerms", false)
-    toast.error("É necessário aceitar os termos para prosseguir com a criação de conta!")
   }, [openTerms, formFields.checkTerms]);
 
   const handleSubmit = () => {
@@ -187,24 +180,24 @@ export default function RegisterAccess() {
             />
           </section>
 
-          <section id='terms-check' className='flex space-x-2 items-center pt-4' onClick={() => setOpenTerms(true)}>
+          <section id='terms-check' className='flex space-x-2 items-center pt-4'>
             <Checkbox
               id="terms"
-              checked={formFields.checkTerms} />
+              checked={formFields.checkTerms}
+              onClick={() => handleFormFields("checkTerms", !formFields.checkTerms)}
+            />
             <Label
-              htmlFor="terms"
-              className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+              className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               Concordo com os
-              <span className="text-primary hover:underline ml-1 cursor-pointer">Termos de Uso</span> e
-              <span className="text-primary hover:underline ml-1 cursor-pointer">Política de Privacidade</span>
+              <span className="text-primary hover:underline ml-1 cursor-pointer" onClick={() => setOpenTerms(true)}>Termos de Uso</span> e
+              <span className="text-primary hover:underline ml-1 cursor-pointer" onClick={() => setOpenTerms(true)}>Política de Privacidade</span>
             </Label>
           </section>
           <TermsModal
             isOpen={openTerms}
             onClose={() => setOpenTerms(false)}
             onAccept={handleAcceptTerms}
-            onDecline={handleDeclineTerms}
           />
 
           <Button

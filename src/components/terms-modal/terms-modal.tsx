@@ -9,10 +9,9 @@ interface TermsOfUseModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAccept: () => void;
-  onDecline: () => void;
 }
 
-const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept, onDecline }) => {
+const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose} modal={true}>
       <DialogContent className="p-0 max-w-4xl border-none rounded-lg">
@@ -168,9 +167,6 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
         </div>
 
         <div className="flex justify-end p-4 border-t border-gray-200 bg-gray-50 rounded-b-lg">
-          <Button variant="outline" className="mr-3 px-6 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100" onClick={onDecline}>
-            Recusar
-          </Button>
           <Button className="bg-primary hover:bg-primary-foreground text-white px-6 py-2 rounded-md" onClick={onAccept}>
             Aceitar Termos
           </Button>
