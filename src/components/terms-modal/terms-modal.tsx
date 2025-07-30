@@ -3,7 +3,7 @@ import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import ClinicHubLogo from "@/assets/routes/public/clinicHubLogo.png"
-import { Info } from 'lucide-react';
+import { BookA, Info, Mail, RefreshCcw, Scale, ShieldPlus, TriangleAlert, UserCheck } from 'lucide-react';
 
 interface TermsOfUseModalProps {
   isOpen: boolean;
@@ -45,7 +45,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
 
           <div id="definitions" className='space-y-2'>
             <div className="flex flex-row gap-2 items-center">
-              <Info size={18} className='text-primary' />
+              <BookA size={18} className='text-primary' />
               <h3 className="text-xl font-bold">
                 2. Definições
               </h3>
@@ -60,7 +60,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
 
           <div id="usage" className='space-y-2'>
             <div className="flex flex-row gap-2 items-center">
-              <Info size={18} className='text-primary' />
+              <UserCheck size={18} className='text-primary' />
               <h3 className="text-xl font-bold">
                 3. Uso da Plataforma
               </h3>
@@ -81,7 +81,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
 
           <div id="privacy" className='space-y-2'>
             <div className="flex flex-row gap-2 items-center">
-              <Info size={18} className='text-primary' />
+              <ShieldPlus size={18} className='text-primary' />
               <h3 className="text-xl font-bold">
                 4. Privacidade e Proteção de Dados
               </h3>
@@ -102,7 +102,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
 
           <div id="responsability" className='space-y-2'>
             <div className="flex flex-row gap-2 items-center">
-              <Info size={18} className='text-primary' />
+              <Scale size={18} className='text-primary' />
               <h3 className="text-xl font-bold">
                 5. Responsabilidades
               </h3>
@@ -132,7 +132,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
 
           <div id='limits' className='space-y-2'>
             <div className='flex flex-row gap-2 items-center'>
-              <Info size={18} className='text-primary' />
+              <TriangleAlert size={18} className='text-primary' />
               <h3 className="font-bold text-lg">6. Limitações de Responsabilidades</h3>
             </div>
             <p className="text-sm ml-1">
@@ -143,12 +143,26 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
 
           <div id='updates' className='space-y-2'>
             <div className='flex flex-row gap-2 items-center'>
-              <Info size={18} className='text-primary' />
+              <RefreshCcw size={18} className='text-primary' />
               <h3 className="font-bold text-lg">7. Atualizações dos Termos</h3>
             </div>
             <p className="text-sm ml-1">
               Reservamo-nos o direito de atualizar estes termos periodicamente.
               Os usuários serão notificados sobre mudanças significativas via e-mail ou através da plataforma.
+            </p>
+          </div>
+
+          <div id='updates' className='space-y-2'>
+            <div className='flex flex-row gap-2 items-center'>
+              <Mail size={18} className='text-primary' />
+              <h3 className="font-bold text-lg">8. Contato</h3>
+            </div>
+            <p className="text-sm ml-1">
+              Para dúvidas sobre estes termos:
+            </p>
+            <p className="text-sm ml-1">
+              suporte@dedica.com.br<br />
+              Central de Atendimento: (11) 3000-0000
             </p>
           </div>
         </div>
