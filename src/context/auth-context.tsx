@@ -52,7 +52,6 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
   });
 
   useEffect(() => {
-    console.log(user);
     const cookieUser = Cookies.get('dedica_user');
     const cookieToken = Cookies.get('dedica_token') as string;
     const cookieWorkspace = Cookies.get('dedica_workspace_id') as string;
@@ -63,10 +62,6 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
       setWorkspaceId(cookieWorkspace); // supondo que o token está dentro de user
     }
   }, []);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   const signIn = async (user: User) => {
     setToken(user.token!);

@@ -107,9 +107,9 @@ export function formatComboContact(array: Item[]) {
   }));
 }
 
-export const formatCpfCnpj = (v: string) => {
+export const formatCpfCnpj = (v: string | undefined) => {
+  if (!v) return ""
 
-  console.log(v)
   v = v?.replace(/\D/g, '');
 
   if (v?.length <= 11) {
