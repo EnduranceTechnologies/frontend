@@ -1,4 +1,4 @@
-import  { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { useLoading } from '@/context/loading-context';
 

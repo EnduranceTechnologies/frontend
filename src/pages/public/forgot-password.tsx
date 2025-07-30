@@ -38,7 +38,7 @@ export default function ForgotPassword() {
         const response = await forgotPassword(data);
         console.log(response);
         if (response.status === 200) {
-          await toast.success(response.data.message)
+          toast.success(response.data.message)
           await navigate(`/profiles`);
         }
       }
@@ -58,7 +58,7 @@ export default function ForgotPassword() {
 
   return (
     <section className="flex flex-col gap-5 items-center h-[100vh] justify-center">
-      <img src={logo} className="font-medium h-[4rem]"/>
+      <img src={logo} className="font-medium h-[4rem]" />
       {/* <h1 className='text-4xl font-semibold '>Dedica</h1> */}
       <form onSubmit={handleSubmit}>
         <Card className="border-none shadow-none max-w-[400px]">
