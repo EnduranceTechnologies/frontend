@@ -46,7 +46,7 @@ export default function DeleteUserModal({
         console.error(error);
         return toast.error(
           error?.response?.data?.message ||
-            'Não foi possível encontrar o usuário, tente novamente.',
+          'Não foi possível encontrar o usuário, tente novamente.',
         );
       }
     } finally {
@@ -67,12 +67,10 @@ export default function DeleteUserModal({
     await onLoading();
     try {
       const response = await deleteUser(id);
-      console.log(response?.status, 'status');
-      console.log(response.data);
       if (response.status === 204) {
         toast.success('Usuário removido com sucesso.');
-        await getData();
-        await close();
+        getData();
+        close();
       }
     } catch (error) {
       if (error instanceof AxiosError) {

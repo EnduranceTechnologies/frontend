@@ -36,7 +36,7 @@ import { toast } from 'react-toastify';
 import { useLoading } from '@/context/loading-context';
 import DetailUserModal from '@/components/modal/user/detail';
 import DeleteUserModal from '@/components/modal/user/delete';
-import { formatDate } from '@/utils/formats';
+import { formatDate } from '@/services/utils/formats';
 import { AxiosError } from 'axios';
 import CreateUserModal from '@/components/modal/user/create';
 
@@ -298,9 +298,9 @@ export default function Users() {
                             {header.isPlaceholder
                               ? null
                               : flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext(),
-                                )}
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
                           </TableHead>
                         );
                       })}

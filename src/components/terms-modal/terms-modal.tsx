@@ -3,23 +3,22 @@ import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import ClinicHubLogo from "@/assets/routes/public/clinicHubLogo.png"
-import { Info } from 'lucide-react';
+import { BookA, Info, Mail, RefreshCcw, Scale, ShieldPlus, TriangleAlert, UserCheck } from 'lucide-react';
 
 interface TermsOfUseModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAccept: () => void;
-  onDecline: () => void;
 }
 
-const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept, onDecline }) => {
+const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose} modal={true}>
       <DialogContent className="p-0 max-w-4xl border-none rounded-lg">
         <DialogHeader className="p-6 bg-gradient-to-r from-primary to-primary-foreground rounded-t-lg text-white">
           <div className="flex items-center gap-2">
             <img src={ClinicHubLogo} />
-            <span className="text-2xl font-semibold">ClinicHub</span>
+            <span className="text-2xl font-semibold">ClinicHUB</span>
           </div>
           <div className='flex flex-col items-start'>
             <DialogTitle className="text-xl font-semibold">Termos de Uso</DialogTitle>
@@ -39,20 +38,20 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
               <h3 className="font-bold text-lg">1. Introdução</h3>
             </div>
             <p className="text-sm ml-1">
-              Bem-vindo ao Dedica, um sistema de gestão em saúde desenvolvido para profissionais e clínicas. Ao utilizar nossa plataforma, você concorda com os termos e condições descritos neste documento.
+              Bem-vindo ao ClinicHUB, um sistema de gestão em saúde desenvolvido para profissionais e clínicas. Ao utilizar nossa plataforma, você concorda com os termos e condições descritos neste documento.
             </p>
           </div>
 
           <div id="definitions" className='space-y-2'>
             <div className="flex flex-row gap-2 items-center">
-              <Info size={18} className='text-primary' />
+              <BookA size={18} className='text-primary' />
               <h3 className="text-xl font-bold">
                 2. Definições
               </h3>
             </div>
 
             <div className='space-y-1 ml-1'>
-              <p><strong>Plataforma:</strong> O sistema Dedica e todos os seus recursos.</p>
+              <p><strong>Plataforma:</strong> O sistema ClinicHUB e todos os seus recursos.</p>
               <p><strong>Usuário:</strong> Profissional de saúde ou administrador que utiliza a plataforma.</p>
               <p><strong>Dados de Saúde:</strong> Informações relacionadas aos pacientes e atendimentos.</p>
             </div>
@@ -60,7 +59,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
 
           <div id="usage" className='space-y-2'>
             <div className="flex flex-row gap-2 items-center">
-              <Info size={18} className='text-primary' />
+              <UserCheck size={18} className='text-primary' />
               <h3 className="text-xl font-bold">
                 3. Uso da Plataforma
               </h3>
@@ -81,7 +80,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
 
           <div id="privacy" className='space-y-2'>
             <div className="flex flex-row gap-2 items-center">
-              <Info size={18} className='text-primary' />
+              <ShieldPlus size={18} className='text-primary' />
               <h3 className="text-xl font-bold">
                 4. Privacidade e Proteção de Dados
               </h3>
@@ -89,7 +88,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
 
             <div className='space-y-1 ml-1'>
               <p className="text-sm">
-                O ClinicHub está em conformidade com a LGPD (Lei Geral de Proteção de Dados):
+                O ClinicHUB está em conformidade com a LGPD (Lei Geral de Proteção de Dados):
               </p>
               <ul className="list-disc list-inside text-sm space-y-1">
                 <li className='ml-4'>Criptografia de dados em trânsito e em repouso</li>
@@ -102,7 +101,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
 
           <div id="responsability" className='space-y-2'>
             <div className="flex flex-row gap-2 items-center">
-              <Info size={18} className='text-primary' />
+              <Scale size={18} className='text-primary' />
               <h3 className="text-xl font-bold">
                 5. Responsabilidades
               </h3>
@@ -120,7 +119,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
             </div>
             <div className='space-y-1 ml-1'>
               <p className="text-sm font-semibold">
-                Do ClinicHub:
+                Do ClinicHUB:
               </p>
               <ul className="list-disc list-inside text-sm space-y-1">
                 <li className='ml-4'>Manter a disponibilidade do sistema</li>
@@ -132,18 +131,18 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
 
           <div id='limits' className='space-y-2'>
             <div className='flex flex-row gap-2 items-center'>
-              <Info size={18} className='text-primary' />
+              <TriangleAlert size={18} className='text-primary' />
               <h3 className="font-bold text-lg">6. Limitações de Responsabilidades</h3>
             </div>
             <p className="text-sm ml-1">
-              O ClinicHub não se responsabiliza por decisões médicas tomadas com base nas informações da plataforma.
+              O ClinicHUB não se responsabiliza por decisões médicas tomadas com base nas informações da plataforma.
               O sistema é uma ferramenta de apoio à gestão, não substituindo o julgamento clínico profissional.
             </p>
           </div>
 
           <div id='updates' className='space-y-2'>
             <div className='flex flex-row gap-2 items-center'>
-              <Info size={18} className='text-primary' />
+              <RefreshCcw size={18} className='text-primary' />
               <h3 className="font-bold text-lg">7. Atualizações dos Termos</h3>
             </div>
             <p className="text-sm ml-1">
@@ -151,12 +150,23 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept,
               Os usuários serão notificados sobre mudanças significativas via e-mail ou através da plataforma.
             </p>
           </div>
+
+          <div id='updates' className='space-y-2'>
+            <div className='flex flex-row gap-2 items-center'>
+              <Mail size={18} className='text-primary' />
+              <h3 className="font-bold text-lg">8. Contato</h3>
+            </div>
+            <p className="text-sm ml-1">
+              Para dúvidas sobre estes termos:
+            </p>
+            <p className="text-sm ml-1">
+              suporte@clinichub.com.br<br />
+              Central de Atendimento: (11) 3000-0000
+            </p>
+          </div>
         </div>
 
         <div className="flex justify-end p-4 border-t border-gray-200 bg-gray-50 rounded-b-lg">
-          <Button variant="outline" className="mr-3 px-6 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100" onClick={onDecline}>
-            Recusar
-          </Button>
           <Button className="bg-primary hover:bg-primary-foreground text-white px-6 py-2 rounded-md" onClick={onAccept}>
             Aceitar Termos
           </Button>
