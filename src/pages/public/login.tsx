@@ -1,37 +1,49 @@
-import { ModeToggle } from '@/components/mode-toggle/mode-toggle';
+import AnimatedComponent from '@/components/animated-component';
+import BasicInput from '@/components/basic-input/basic-input';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import ClinicHubLogo from "@/assets/routes/public/clinicHubLogo.png"
+import ClinicHUbLoginImage1 from "@/assets/routes/public/clinicHubLoginImage1.png";
+import ClinicHUbLoginImage2 from "@/assets/routes/public/clinicHubLoginImage2.png";
+import ClinicHubLoginImage3 from "@/assets/routes/public/clinicHubLoginImage3.png";
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/context/auth-context';
 import { useLoading } from '@/context/loading-context';
-import { useTheme } from '@/context/theme-context';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { LogIn, Mail, Lock } from 'lucide-react';
+import ImageCarousel from '@/components/carousel/carousel';
+import { emailValidator } from '@/utils/valid';
+import { Card } from '@/components/ui/card';
+
+interface FormFields {
+  email: string;
+  password: string;
+
+}
+
+const defaultFormFields: FormFields = {
+  email: "",
+  password: ""
+}
 
 export default function Login() {
+  
   const { onLoading, offLoading } = useLoading();
   const { login, signIn } = useAuth();
+  const [data, setData] = useState(defaultFormFields);
+  const [emailError, setEmailError] = useState<string | undefined>(undefined);
+
+  const setUser = (field: keyof FormFields, value: string) => {
+    setData(prev => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
   const navigate = useNavigate();
-  const { logo } = useTheme();
 
-  const [data, setData] = useState({
-    email: '',
-    password: '',
-  });
-
-  function setUser(column: string, value: string) {
-    setData({ ...data, [column]: value });
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     await onLoading();
@@ -40,6 +52,8 @@ export default function Login() {
       e.preventDefault();
       if (data.email === '' || data.password === '') {
         toast.warn('Preencha as credenciais corretamnete');
+      } else if (emailValidator(data.email)) {
+        setEmailError('Preencha o e-mail corretamente');
       } else {
         const { email, password } = data;
         const response = await login(email, password);
@@ -61,63 +75,108 @@ export default function Login() {
     }
   };
 
-  const disabled = data.email === '' || data.password === '';
+
+  const disabled = data.email === '' || data.password === '' || emailError !== undefined;
 
   return (
-    <section className="flex flex-col gap-5 items-center h-[100vh] justify-center">
-      <img src={logo} className="font-medium h-[4rem]" />
-
-      {/* <h1 className='text-4xl font-semibold '>Dedica</h1> */}
-      <form onSubmit={handleSubmit}>
-        <Card className="border-none shadow-none w-[400px]">
-          <CardHeader>
-            <CardTitle>Login</CardTitle>
-            <CardDescription>
-              Faça o login com as credenciais da sua conta
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="space-y-1">
-              <Label htmlFor="email" className="">
-                E-mail
-              </Label>
-              <Input
-                id="email"
-                placeholder="seuemail@domínio.com.br"
-                autoFocus
-                value={data.email}
-                onChange={(e) => setUser('email', e.target.value)}
-              />
+    
+  <section>
+    <div className="flex w-full min-h-dvh">
+      <Card className='flex flex-col justify-center  lg:w-1/3 px-6 py-4 lg:px-14 space-y-5 xl:space-y-4 2xl:space-y-6'>
+        <AnimatedComponent type='slide-from-left' delay={100} duration='duration-500'>
+          <section id='header' className='space-y-10'>
+            <div className='space-y-2'>
+              <div className="flex items-center space-x-2">
+                <img src={ClinicHubLogo} />
+                <span className="text-xl font-semibold">ClinicHub</span>
+              </div>
+              <p className="text-sm">Sistema de Gestão em Saúde</p>
             </div>
-            <div className="space-y-1">
-              <Label htmlFor="password">Senha</Label>
-              <Input
+            <div className='space-y-1'>
+              <h1 className="text-3xl font-bold">Bem-vindo de volta</h1>
+              <p>Acesse sua conta para continuar</p>
+            </div>
+          </section>
+        </AnimatedComponent>
+
+        <AnimatedComponent type='slide-from-bottom' delay={200} duration='duration-700' className='space-y-5 xl:space-y-4 2xl:space-y-6'>
+
+            <form onSubmit={handleSubmit} id="inputs" className='space-y-5'>
+              <BasicInput
+                label="E-mail"
+                leftIcon={
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                }
+                id="email"
+                type="email"
+                error={emailError}
+                placeholder="seu@email.com"
+                value={data.email}
+                onChange={(e) => {
+                  setUser('email', e.target.value);
+                }}
+                onBlur={() => {
+                  if (!emailValidator(data.email)) {
+                    setEmailError('Preencha o e-mail corretamente');
+                  } else {
+                    setEmailError(undefined);
+                  }
+                }}
+                autoComplete="email"
+                required
+              />
+              <BasicInput
+                label="Senha"
+                placeholder="Digite sua senha"
                 id="password"
                 type="password"
-                placeholder="••••••••"
                 value={data.password}
+                required
                 onChange={(e) => setUser('password', e.target.value)}
+                leftIcon={
+                <Lock 
+                className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                }
               />
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button className="w-full" disabled={disabled}>
-              Entrar
-            </Button>
-          </CardFooter>
-          <CardFooter>
-            <Button
-              className="w-full"
-              variant="link"
-              onClick={() => navigate('/forgot-password')}
-              type="button"
-            >
-              Esqueci minha senha
-            </Button>
-          </CardFooter>
-        </Card>
-      </form>
-      <ModeToggle />
-    </section>
+              <span className="text-right block text-primary hover:underline ml-1 cursor-pointer text-right" onClick={() => navigate('/forgot-password')}>
+                Esqueceu a senha?
+              </span>
+
+              <Button
+                className="w-full py-6 text-lg font-semibold bg-primary hover:bg-primary-foreground text-white flex items-center justify-center space-x-2"
+                disabled={disabled}
+                type="submit"
+                >
+                <LogIn className="h-5 w-5" />
+                Entrar
+                
+              </Button>
+              <Label
+                className="text-center block text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                Não tem uma conta?
+                <span className="text-primary hover:underline ml-1 cursor-pointer" onClick={() => {}}>Cadastre-se gartuitamente</span>
+              </Label>
+            </form>
+        </AnimatedComponent>
+      </Card>
+      <section id='bubbles' className='hidden lg:block lg:w-2/3 min-h-full bg-gradient-to-r from-primary to-primary-foreground relative'>
+        <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 z-20'>
+        <ImageCarousel
+          images={[
+            ClinicHUbLoginImage1,
+            ClinicHUbLoginImage2,
+            ClinicHubLoginImage3,
+          ]}
+        />
+        </div>
+        <div className="absolute bottom-1 left-[10%] w-6 h-6 rounded-full opacity-0 bg-white animate-bubble-float-1 z-10"></div>
+        <div className="absolute bottom-1 left-[30%] w-30 h-30 rounded-full opacity-0 bg-white animate-bubble-float-2 z-10"></div>
+        <div className="absolute bottom-1 left-[50%] w-7 h-7 rounded-full opacity-0 bg-white animate-bubble-float-3 z-10"></div>
+        <div className="absolute bottom-1 left-[70%] w-12 h-12 rounded-full opacity-0 bg-white animate-bubble-float-1 [animation-delay:3s] z-10"></div>
+        <div className="absolute bottom-1 left-[90%] w-9 h-9 rounded-full opacity-0 bg-white animate-bubble-float-2 [animation-delay:1s] z-10"></div>
+      </section>
+    </div>
+  </section>
   );
 }
