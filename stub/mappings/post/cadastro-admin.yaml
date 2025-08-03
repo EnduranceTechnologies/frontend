@@ -1,0 +1,10 @@
+-  request:
+      method: POST
+      url: /admin/signup
+      
+
+      response:
+            status: 200
+            file: "../../mocks/cadastro-admin/cadastro-admin.json"
+            headers:
+                  content-type: application/json

@@ -3,13 +3,14 @@ import Cookies from 'js-cookie';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
-export const api = axios.create({
+export const API = axios.create({
   baseURL: baseURL,
+  timeout: 10000
 });
 
-api.interceptors.request.use(
+API.interceptors.request.use(
   (config) => {
-    const token = Cookies.get('dedica_token');
+    const token = Cookies.get('clinic_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -20,14 +21,14 @@ api.interceptors.request.use(
   },
 );
 
-api.interceptors.response.use(
+API.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
     if (error.response) {
       if (error.response.data.message === 'Token invalid') {
-        Cookies.remove('dedica_token');
+        Cookies.remove('clinic_token');
         window.location.href = '/login';
       }
     }

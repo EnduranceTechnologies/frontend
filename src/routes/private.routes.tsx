@@ -7,7 +7,7 @@ interface PrivateProps {
 }
 
 function Private({ children }: PrivateProps) {
-  if (Cookies.get('dedica_token')) {
+  if (Cookies.get('clinic_token')) {
     return children;
   }
 

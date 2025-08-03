@@ -1,0 +1,21 @@
+{
+  "mappings": {
+    "default": {
+      "request": {
+        "method": "GET,POST,PUT,DELETE,PATCH"
+      },
+      "response": {
+        "strategy": "first-found",
+        "latency": 0,
+        "status": 200
+      }
+    },
+    "requests": [
+      "mappings/post/cadastro-admin.yaml"
+    ]
+  },
+  "server": {
+    "port": 3000
+  },
+  "stubs": "mocks/**"
+}
