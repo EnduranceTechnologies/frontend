@@ -7,9 +7,9 @@ import {
 } from 'react';
 import Cookies from 'js-cookie';
 import { RecoverPassword, User } from '../types/User';
-import { api } from '../api/api';
+import { API } from '../services/api/api';
 import { AxiosResponse } from 'axios';
-import { decryptData, encryptData } from '@/utils/encrypt';
+import { decryptData, encryptData } from '@/services/utils/encrypt';
 import { toast } from 'react-toastify';
 
 interface AuthContextInterface {
@@ -32,7 +32,7 @@ interface AuthContextInterface {
       workspace_id: string;
     };
   };
-  api: typeof api;
+  API: typeof API;
 }
 
 const AuthContext = createContext<AuthContextInterface | undefined>(undefined);
@@ -52,9 +52,9 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
   });
 
   useEffect(() => {
-    const cookieUser = Cookies.get('dedica_user');
-    const cookieToken = Cookies.get('dedica_token') as string;
-    const cookieWorkspace = Cookies.get('dedica_workspace_id') as string;
+    const cookieUser = Cookies.get('clinic_user');
+    const cookieToken = Cookies.get('clinic_token') as string;
+    const cookieWorkspace = Cookies.get('clinic_workspace_id') as string;
     if (cookieUser && cookieToken) {
       const parsedUser: User = decryptData(cookieUser);
       setUser(parsedUser);
@@ -66,16 +66,16 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
   const signIn = async (user: User) => {
     setToken(user.token!);
     setUser(user);
-    Cookies.set('dedica_user', encryptData(user), { expires: 7 }); // persiste por 7 dias
-    Cookies.set('dedica_token', user.token!, { expires: 7 }); // persiste por 7 dias
+    Cookies.set('clinic_user', encryptData(user), { expires: 7 }); // persiste por 7 dias
+    Cookies.set('clinic_token', user.token!, { expires: 7 }); // persiste por 7 dias
   };
 
   const signOut = () => {
     try {
 
-      Cookies.remove('dedica_token'); // persiste por 7 dias
-      Cookies.remove('dedica_user'); // persiste por 7 dias
-      Cookies.remove('dedica_workspace_id'); // persiste por 7 dias
+      Cookies.remove('clinic_token'); // persiste por 7 dias
+      Cookies.remove('clinic_user'); // persiste por 7 dias
+      Cookies.remove('clinic_workspace_id'); // persiste por 7 dias
       setToken('');
       setWorkspaceId('');
       setUser({
@@ -99,30 +99,31 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
 
   async function signWorkspace(workspace_id: string) {
     setWorkspaceId(workspace_id);
-    Cookies.set('dedica_workspace_id', workspace_id, { expires: 7 }); // persiste por 7 dias
+    Cookies.set('clinic_workspace_id', workspace_id, { expires: 7 }); // persiste por 7 dias
   }
 
   async function login(email: string, password: string) {
-    const response = await api.post('/auth/', { email, password });
+    const response = await API.post('/auth/', { email, password });
     return response;
   }
 
   async function forgotPassword(email: string) {
-    const response = await api.post('/auth/forgot-password/', { email });
+    const response = await API.post('/auth/forgot-password/', { email });
     return response;
   }
 
   async function recoverPassword(data: RecoverPassword) {
-    const response = await api.post('/auth/recover-password/', data);
+    const response = await API.post('/auth/recover-password/', data);
     return response;
   }
 
   async function get2FaQrCode(email: string) {
-    const response = await api.get(`/auth/2fa/${email}`);
+    const response = await API.get(`/auth/2fa/${email}`);
     return response;
   }
+
   async function verifySecret(data: { email: string; secret: string }) {
-    const response = await api.post('/auth/2fa/verify', data);
+    const response = await API.post('/auth/2fa/verify', data);
     return response;
   }
 
@@ -136,7 +137,7 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
         signOut,
         user,
         setUser,
-        api,
+        API,
         get2FaQrCode,
         verifySecret,
         recoverPassword,

@@ -18,7 +18,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept 
         <DialogHeader className="p-6 bg-gradient-to-r from-primary to-primary-foreground rounded-t-lg text-white">
           <div className="flex items-center gap-2">
             <img src={ClinicHubLogo} />
-            <span className="text-2xl font-semibold">ClinicHub</span>
+            <span className="text-2xl font-semibold">ClinicHUB</span>
           </div>
           <div className='flex flex-col items-start'>
             <DialogTitle className="text-xl font-semibold">Termos de Uso</DialogTitle>
@@ -38,7 +38,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept 
               <h3 className="font-bold text-lg">1. Introdução</h3>
             </div>
             <p className="text-sm ml-1">
-              Bem-vindo ao Dedica, um sistema de gestão em saúde desenvolvido para profissionais e clínicas. Ao utilizar nossa plataforma, você concorda com os termos e condições descritos neste documento.
+              Bem-vindo ao ClinicHUB, um sistema de gestão em saúde desenvolvido para profissionais e clínicas. Ao utilizar nossa plataforma, você concorda com os termos e condições descritos neste documento.
             </p>
           </div>
 
@@ -51,7 +51,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept 
             </div>
 
             <div className='space-y-1 ml-1'>
-              <p><strong>Plataforma:</strong> O sistema Dedica e todos os seus recursos.</p>
+              <p><strong>Plataforma:</strong> O sistema ClinicHUB e todos os seus recursos.</p>
               <p><strong>Usuário:</strong> Profissional de saúde ou administrador que utiliza a plataforma.</p>
               <p><strong>Dados de Saúde:</strong> Informações relacionadas aos pacientes e atendimentos.</p>
             </div>
@@ -88,7 +88,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept 
 
             <div className='space-y-1 ml-1'>
               <p className="text-sm">
-                O ClinicHub está em conformidade com a LGPD (Lei Geral de Proteção de Dados):
+                O ClinicHUB está em conformidade com a LGPD (Lei Geral de Proteção de Dados):
               </p>
               <ul className="list-disc list-inside text-sm space-y-1">
                 <li className='ml-4'>Criptografia de dados em trânsito e em repouso</li>
@@ -119,7 +119,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept 
             </div>
             <div className='space-y-1 ml-1'>
               <p className="text-sm font-semibold">
-                Do ClinicHub:
+                Do ClinicHUB:
               </p>
               <ul className="list-disc list-inside text-sm space-y-1">
                 <li className='ml-4'>Manter a disponibilidade do sistema</li>
@@ -135,7 +135,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept 
               <h3 className="font-bold text-lg">6. Limitações de Responsabilidades</h3>
             </div>
             <p className="text-sm ml-1">
-              O ClinicHub não se responsabiliza por decisões médicas tomadas com base nas informações da plataforma.
+              O ClinicHUB não se responsabiliza por decisões médicas tomadas com base nas informações da plataforma.
               O sistema é uma ferramenta de apoio à gestão, não substituindo o julgamento clínico profissional.
             </p>
           </div>
@@ -160,7 +160,7 @@ const TermsModal: React.FC<TermsOfUseModalProps> = ({ isOpen, onClose, onAccept 
               Para dúvidas sobre estes termos:
             </p>
             <p className="text-sm ml-1">
-              suporte@dedica.com.br<br />
+              suporte@clinichub.com.br<br />
               Central de Atendimento: (11) 3000-0000
             </p>
           </div>

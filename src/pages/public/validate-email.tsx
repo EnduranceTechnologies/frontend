@@ -10,6 +10,7 @@ import ClinicHubLogo from "@/assets/routes/public/clinicHubLogo.png"
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import AnimatedComponent from '@/components/animated-component';
+import { toast } from 'react-toastify';
 
 
 export default function ValidateEmail() {
@@ -22,6 +23,7 @@ export default function ValidateEmail() {
 
   useEffect(() => {
     if (!email) {
+      toast.error("Informações incompletas. Comece o registro novamente.")
       navigate("/register-access")
     }
 
@@ -57,7 +59,7 @@ export default function ValidateEmail() {
             <div className='space-y-2'>
               <div className="flex items-center space-x-2">
                 <img src={ClinicHubLogo} />
-                <span className="text-xl font-semibold">ClinicHub</span>
+                <span className="text-xl font-semibold">ClinicHUB</span>
               </div>
               <p className="text-sm">Sistema de Gestão em Saúde</p>
             </div>
@@ -82,7 +84,7 @@ export default function ValidateEmail() {
                 </span>
                 <div className='space-y-1'>
                   <h3 className='font-semibold'>Verifique sua caixa de entrada</h3>
-                  <p className='text-sm'>Procure por um e-mail da Dedica com o assunto "Confirme sua conta"</p>
+                  <p className='text-sm'>Procure por um e-mail da ClinicHUB com o assunto "Confirme sua conta"</p>
                 </div>
               </div>
 

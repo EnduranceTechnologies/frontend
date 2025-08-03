@@ -40,7 +40,7 @@ export default function RecoverPassword() {
       } else if (data.password !== data.confirm_password) {
         toast.warn('As senhas não coincidem');
       } else {
-        const response = await recoverPassword({...data, email: email!, token: token!});
+        const response = await recoverPassword({ ...data, email: email!, token: token! });
         console.log(response);
         if (response.status === 200) {
           await toast.success(response.data.message);
@@ -59,12 +59,12 @@ export default function RecoverPassword() {
     }
   };
 
-  const disabled = (data.password === '' || data.confirm_password === '') || data.password !== data.confirm_password ;
+  const disabled = (data.password === '' || data.confirm_password === '') || data.password !== data.confirm_password;
 
   return (
     <section className="flex flex-col gap-5 items-center h-[100vh] justify-center">
-      <img src={logo} className="font-medium h-[4rem]"/>
-      {/* <h1 className='text-4xl font-semibold '>Dedica</h1> */}
+      <img src={logo} className="font-medium h-[4rem]" />
+      {/* <h1 className='text-4xl font-semibold '>ClinicHUB</h1> */}
       <form onSubmit={handleSubmit}>
         <Card className="border-none shadow-none max-w-[400px]">
           <CardHeader>
@@ -84,7 +84,7 @@ export default function RecoverPassword() {
                 placeholder="••••••••"
                 autoFocus
                 value={data.password}
-                onChange={(e) => setData({ ...data, password: e.target.value})}
+                onChange={(e) => setData({ ...data, password: e.target.value })}
               />
             </div>
             <div className="space-y-1">
@@ -97,7 +97,7 @@ export default function RecoverPassword() {
                 placeholder="••••••••"
                 autoFocus
                 value={data.confirm_password}
-                onChange={(e) => setData({ ...data, confirm_password: e.target.value})}
+                onChange={(e) => setData({ ...data, confirm_password: e.target.value })}
               />
             </div>
           </CardContent>

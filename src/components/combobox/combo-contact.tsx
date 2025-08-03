@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { formatCpfCnpj } from '@/utils/formats';
+import { formatCpfCnpj } from '@/services/utils/formats';
 import { Input } from '../ui/input';
 
 interface Option {
@@ -52,11 +52,11 @@ export function ComboboxContact({
     search === ''
       ? options
       : options.filter((option) =>
-          String(option[filterkey])
-            .toLowerCase()
-            .replace(/\s+/g, '')
-            .includes(search.toLowerCase().replace(/\s+/g, '')),
-        );
+        String(option[filterkey])
+          .toLowerCase()
+          .replace(/\s+/g, '')
+          .includes(search.toLowerCase().replace(/\s+/g, '')),
+      );
 
   const selectedOption = options.find((option) => option.id === value);
 
@@ -99,9 +99,7 @@ export function ComboboxContact({
             {filteredOptions.map((framework) => (
               <Button
                 key={framework.cpf}
-                className={`flex items-center relative h-auto w-full justify-start text-left p-2 ${
-                  value === framework.id && 'border border-gray-200 '
-                }`}
+                className={cn("flex items-center relative h-auto w-full justify-start text-left p-2", value === framework.id && 'border border-gray-200')}
                 variant="ghost"
                 onClick={() => {
                   handleChangeObject(framework.id!);

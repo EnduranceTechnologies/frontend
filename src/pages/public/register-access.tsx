@@ -4,93 +4,111 @@ import { Label } from '@/components/ui/label';
 import { Mail, Lock, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-import ClinicHubLogo from "@/assets/routes/public/clinicHubLogo.png"
-import IndividualProfessional from "@/assets/routes/public/register/profissional_individual.svg"
-import ClinicADM from "@/assets/routes/public/register/adm_clinica.svg"
+import ClinicHubLogo from "@/assets/routes/public/clinicHubLogo.png";
+import IndividualProfessional from "@/assets/routes/public/register/profissional_individual.svg";
+import ClinicADM from "@/assets/routes/public/register/adm_clinica.svg";
 import TermsModal from '@/components/terms-modal/terms-modal';
 import { Checkbox } from '@/components/ui/checkbox';
 import PasswordInput from '@/components/password-input/password-input';
 import BasicInput from '@/components/basic-input/basic-input';
 import { useNavigate } from 'react-router-dom';
 import AnimatedComponent from '@/components/animated-component';
+import FindAccount from '@/services/api/account/findAccount';
+import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 
 interface FormFields {
-  userType: "individual" | "clinic"
+  user_type: "PERSONAL" | "BUSINESS";
   email: string;
   password: string;
-  confirmPassword: string;
-  checkTerms: boolean;
+  confirm_password: string;
+  check_terms: boolean;
   name: string;
   cpf: string;
-  clinicName?: string;
+  clinic_name?: string;
   cnpj?: string;
-  councilNumber?: string;
+  council_number?: string;
 }
 
 const defaultFormFields: FormFields = {
-  userType: "individual",
+  user_type: "PERSONAL",
   email: "",
   password: "",
-  confirmPassword: "",
-  checkTerms: false,
+  confirm_password: "",
+  check_terms: false,
   name: "",
   cpf: "",
-  clinicName: "",
+  clinic_name: "",
   cnpj: "",
-  councilNumber: "",
-}
+  council_number: "",
+};
 
-function checkString(text: string, checkType: "hasUpperLetter" | "hasNumber" | "hasEspecialChar"): boolean {
-  if (checkType === "hasEspecialChar") {
-    const regex = /[^a-zA-Z0-9\s]/;
-    return regex.test(text)
+function validatePasswordCharacteristic(text: string, checkType: "has_upper_letter" | "has_number" | "has_special_char"): boolean {
+  switch (checkType) {
+    case "has_upper_letter":
+      return /[A-Z]/.test(text);
+    case "has_number":
+      return /[0-9]/.test(text);
+    case "has_special_char":
+      return /[^a-zA-Z0-9\s]/.test(text);
+    default:
+      return false;
   }
-
-  const initialChar = checkType === "hasUpperLetter" ? "A" : "0"
-  const finalChar = checkType === "hasUpperLetter" ? "Z" : "9"
-
-  for (let i = 0; i < text.length; i++) {
-    const caractere = text[i];
-
-    if (caractere >= initialChar && caractere <= finalChar) {
-      return true;
-    }
-  }
-  return false;
 }
 
 export default function RegisterAccess() {
   const [openTerms, setOpenTerms] = useState<boolean>(false);
   const [formFields, setFormFields] = useState<FormFields>(defaultFormFields);
 
-  const navigate = useNavigate()
-
-  const disabledButton = useMemo(() => {
-    if (formFields.email.length > 0 &&
-      checkString(formFields.password, "hasUpperLetter") &&
-      checkString(formFields.password, "hasNumber") &&
-      checkString(formFields.password, "hasEspecialChar") &&
-      formFields.password === formFields.confirmPassword &&
-      formFields.checkTerms) return false
-
-    return true
-  }, [formFields.email, formFields.password, formFields.confirmPassword, formFields.checkTerms])
+  const navigate = useNavigate();
 
   const handleFormFields = useCallback(<T extends keyof FormFields>(field: T, value: FormFields[T]) => {
     setFormFields(prev => ({
       ...prev,
       [field]: value
-    }))
-  }, [setFormFields])
+    }));
+  }, []);
 
   const handleAcceptTerms = useCallback(() => {
-    handleFormFields("checkTerms", true)
+    handleFormFields("check_terms", true);
     setOpenTerms(false);
-  }, [openTerms, formFields.checkTerms]);
+  }, [handleFormFields]);
 
-  const handleSubmit = () => {
-    return navigate("/register-info", { state: formFields })
-  }
+  const password_valid = useMemo(() => {
+    return (
+      validatePasswordCharacteristic(formFields.password, "has_upper_letter") &&
+      validatePasswordCharacteristic(formFields.password, "has_number") &&
+      validatePasswordCharacteristic(formFields.password, "has_special_char") &&
+      formFields.password === formFields.confirm_password
+    );
+  }, [formFields.password, formFields.confirm_password]);
+
+  const disabled_button = useMemo(() => {
+    return !(
+      formFields.email.length > 0 &&
+      password_valid &&
+      formFields.check_terms
+    );
+  }, [formFields.email, password_valid, formFields.check_terms]);
+
+  const handleSubmit = async () => {
+    try {
+      const account_exists = await FindAccount({ field: "email", value: formFields.email });
+
+      if (account_exists) {
+        toast.error(account_exists.message);
+        return;
+      }
+
+      navigate("/register-info", { state: formFields });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return toast.error(error.response?.data.message)
+      }
+
+      toast.error("Parece que estamos enfrentando problemas técnicos. Tente novamente mais tarde!")
+    }
+  };
 
   return (
     <div className="flex w-full min-h-dvh">
@@ -99,8 +117,8 @@ export default function RegisterAccess() {
           <section id='header' className='space-y-10'>
             <div className='space-y-2'>
               <div className="flex items-center space-x-2">
-                <img src={ClinicHubLogo} />
-                <span className="text-xl font-semibold">ClinicHub</span>
+                <img src={ClinicHubLogo} alt="ClinicHUB Logo" />
+                <span className="text-xl font-semibold">ClinicHUB</span>
               </div>
               <p className="text-sm">Sistema de Gestão em Saúde</p>
             </div>
@@ -127,22 +145,22 @@ export default function RegisterAccess() {
 
         <AnimatedComponent type='slide-from-bottom' delay={200} duration='duration-700' className='space-y-5 xl:space-y-4 2xl:space-y-6'>
           <section id="userTypeSelection" className="space-y-1">
-            <Label htmlFor="user-type">Tipo de usuário</Label>
+            <Label>Tipo de usuário</Label>
             <div className="flex flex-col gap-2 2xl:flex-row 2xl:gap-4">
               <Button
                 variant={'outline'}
-                className={cn("flex-1 h-24 flex flex-col items-center justify-center space-y-2 text-base", formFields.userType === "individual" && "border-primary bg-accent")}
-                onClick={() => handleFormFields("userType", "individual")}
+                className={cn("flex-1 h-24 flex flex-col items-center justify-center space-y-2 text-base", formFields.user_type === "PERSONAL" && "border-primary bg-accent")}
+                onClick={() => handleFormFields("user_type", "PERSONAL")}
               >
-                <img src={IndividualProfessional} />
+                <img src={IndividualProfessional} alt="Profissional Individual" />
                 <span>Profissional Individual</span>
               </Button>
               <Button
                 variant={'outline'}
-                className={cn("flex-1 h-24 flex flex-col items-center justify-center space-y-2 text-base", formFields.userType === "clinic" && "border-primary bg-accent")}
-                onClick={() => handleFormFields("userType", "clinic")}
+                className={cn("flex-1 h-24 flex flex-col items-center justify-center space-y-2 text-base", formFields.user_type === "BUSINESS" && "border-primary bg-accent")}
+                onClick={() => handleFormFields("user_type", "BUSINESS")}
               >
-                <img src={ClinicADM} />
+                <img src={ClinicADM} alt="Administrador de Clínica" />
                 <span>Administrador de Clínica</span>
               </Button>
             </div>
@@ -156,8 +174,10 @@ export default function RegisterAccess() {
               }
               id="email"
               type="email"
+              autoComplete='email'
               placeholder="seu@email.com"
               onChange={(e) => handleFormFields("email", e.target.value)}
+              value={formFields.email}
             />
 
             <PasswordInput
@@ -168,23 +188,23 @@ export default function RegisterAccess() {
 
             <BasicInput
               label="Confirmar senha"
-              value={formFields.confirmPassword}
+              value={formFields.confirm_password}
               placeholder="Confirme sua senha"
               id="confirmPassword"
               type="password"
-              onChange={(e) => handleFormFields("confirmPassword", e.target.value)}
+              onChange={(e) => handleFormFields("confirm_password", e.target.value)}
               leftIcon={
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               }
-              error={formFields.password !== formFields.confirmPassword && formFields.confirmPassword.length > 0 ? "As senhas não coincidem. Por favor, tente novamente." : undefined}
+              error={formFields.password !== formFields.confirm_password && formFields.confirm_password.length > 0 ? "As senhas não coincidem. Por favor, tente novamente." : undefined}
             />
           </section>
 
           <section id='terms-check' className='flex space-x-2 items-center pt-4'>
             <Checkbox
               id="terms"
-              checked={formFields.checkTerms}
-              onClick={() => handleFormFields("checkTerms", !formFields.checkTerms)}
+              checked={formFields.check_terms}
+              onClick={() => handleFormFields("check_terms", !formFields.check_terms)}
             />
             <Label
               className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -202,7 +222,7 @@ export default function RegisterAccess() {
 
           <Button
             className="w-full py-6 text-lg font-semibold bg-primary hover:bg-primary-foreground text-white flex items-center justify-center space-x-2"
-            disabled={disabledButton}
+            disabled={disabled_button}
             onClick={handleSubmit}
           >
             Continuar
